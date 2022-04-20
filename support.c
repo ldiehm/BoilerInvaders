@@ -106,160 +106,6 @@ void update2(int x, int y)
     pic_overlay(tmp, 5,5, &player, 0xffff); // Overlay the ball
     LCD_DrawPicture(x-tmp->width/2,y-tmp->height/2, tmp); // Draw
 }
-//void rocketMan(void)
-//{
-//    // Draw the background.
-//        MIDI_Player *mp = midi_init(midifile);
-//        init_tim2(10417);
-//
-//    int x = 120;
-//    int y = 22;
-//
-//    int right, left, shootah, gbX, gbY;
-//    int gbCheck = 0;
-//    int bg1, bg2, bg3, bg4, bg5, bg6 = 1;
-//    int bgX1 = 90;
-//    int bgY1 = 280; //initializing bad guy 1
-//
-//    int bgX2 = 150;
-//    int bgY2 = 280; //initializing bad guy 1
-//
-//    int bgX3 = 210;
-//    int bgY3 = 280; //initializing bad guy 1
-//
-//    int bgX4 = 60;
-//    int bgY4 = 295; //initializing bad guy 1
-//
-//    int bgX5 = 120;
-//    int bgY5 = 295; //initializing bad guy 1
-//
-//    int bgX6 = 180;
-//    int bgY6 = 295; //initializing bad guy 1
-//
-//    for(;;) {
-//        for(int c=0; c<4; c++) {
-//
-//            nano_wait(7500000); // wait 1 ms
-//            right = GPIOC->IDR & 1<<6;
-//            left = GPIOC->IDR & 1<<7;
-//            shootah = GPIOC->IDR & 1<<8;
-//
-//            if((shootah && 1<<8) && (gbCheck != 1)) {
-//                gbCheck = 1;
-//                gbX = x;
-//                gbY = 30;
-//            }
-//
-//            if(gbCheck) {
-//                update(gbX-2, gbY + 10, 1);
-//
-//                update(gbX-2, gbY+2, 0);
-//
-//                gbY += 2;
-//            }
-//
-//            if (right && 1<<7)
-//            {
-//                //nano_wait(5000000);
-//                x++;
-//                update(x, y, 2);
-//            }
-//            else if(left && 1<<6)
-//            {
-//                right = GPIOC->IDR & 1<<6;
-//                left = GPIOC->IDR & 1<<7;
-//                shootah = GPIOC->IDR & 1<<8;
-//            }
-//            if((shootah && 1<<8) && (gbCheck != 1)) {
-//                gbCheck = 1;
-//                gbX = x;
-//                gbY = 30;
-//            }
-//
-//            if(gbCheck) {
-//                update(gbX-2, gbY + 10, 1);
-//
-//                update(gbX-2, gbY+2, 0);
-//
-//                gbY += 2;
-//            }
-//
-//            if (right && 1<<7)
-//            {
-//                x++;
-//                update(x, y, 2);
-//            }
-//            else if(left && 1<<6)
-//                {
-//                //nano_wait(5000000);
-//                x--;
-//                update(x, y, 2);
-//                }
-//
-//            if(gbY > 310) {
-//                gbCheck = 0;
-//            }
-//
-//            if(bg1) {
-//                update(x, y, 3);
-//            }
-//
-//            if(bg2) {
-//                update(x, y, 3);
-//            }
-//
-//            if(bg3) {
-//                update(x, y, 3);
-//            }
-//
-//            if(bg4) {
-//                update(x, y, 3);
-//            }
-//
-//            if(bg5) {
-//                update(x, y, 3);
-//            }
-//
-//            if(bg6) {
-//                update(x, y, 3);
-//            }
-//
-//            if(gbY > 310) {
-//                gbCheck = 0;
-//            }
-//            if(bg1) {
-//                update(x, y, 3);
-//
-//            }
-//            if(bg2) {
-//                update(x, y, 3);
-//
-//            }
-//            if(bg3) {
-//                update(x, y, 3);
-//
-//            }
-//            if(bg4) {
-//                update(x, y, 3);
-//
-//            }
-//            if(bg5) {
-//                update(x, y, 3);
-//
-//            }
-//            if(bg6) {
-//                update(x, y, 3);
-//            }
-//            if (mp->nexttick == MAXTICKS) {
-//                mp = midi_init(midifile);
-//            }
-//        }
-//    }
-//}
-
-
-//here
-
 
 void rocketMan(void)
 {
@@ -290,27 +136,29 @@ void rocketMan(void)
 
     int bgX6 = 180;
     int bgY6 = 295; //initializing bad guy 1
+    int alternate = 1;
 
+    int MAX = 1000;
     for(;;) {
-        for(int z=0; z<4; z++) {
-
-            nano_wait(750000); // wait 1 ms
+        for(int z=0; z<4; z++)
+            {
+            nano_wait(2000000); // wait
             right = GPIOC->IDR & 1<<6;
             left = GPIOC->IDR & 1<<7;
             shootah = GPIOC->IDR & 1<<8;
 
-            if((shootah && 1<<8) && (gbCheck != 1)) {
+            if((shootah && 1<<8) && (gbCheck != 1))
+            {
                 gbCheck = 1;
                 gbX = x;
                 gbY = 30;
             }
 
-            if(gbCheck) {
-                update(gbX-2, gbY + 10, 1);
-
+            if(gbCheck)
+            {
+                update(gbX-2, gbY + 20, 1);
                 update(gbX-2, gbY+2, 0);
-
-                gbY += 2;
+                gbY += 1;
             }
 
             if (right && 1<<7)
@@ -320,39 +168,54 @@ void rocketMan(void)
                 update(x, y, 2);
             }
             else if(left && 1<<6)
-                {
+            {
                 //nano_wait(5000000);
                 x--;
                 update(x, y, 2);
-                }
+            }
 
-            if(gbY > 310) {
+            if(gbY > 310)
+            {
                 gbCheck = 0;
             }
-            if(bg1) {
-                update(x, y, 3);
 
-            }
-            if(bg2) {
-                update(x, y, 3);
+//            if(bg1)
+//            {
+//                update(bgX1, bgY1, 3);
+//            }
+//
+//            if(bg2)
+//            {
+//                update(bgX2, bgY2, 3);
+//            }
+//
+//            if(bg3)
+//            {
+//                update(bgX3, bgY3, 3);
+//            }
+//
+//            if(bg4)
+//            {
+//                update(bgX4, bgY4, 3);
+//            }
+//            if(1)
+//            {
+//                moveBadGuys(bgX5, bgY5, alternate, MAX);
+//
+//
+//            }
+//
+//            if(bg6)
+//            {
+//                update(bgX6, bgY6, 3);
+//            }
+//
+//            alternate++;
+//            if(alternate == MAX)
+//            {
+//                alternate = 0;
+//            }
 
-            }
-            if(bg3) {
-                update(x, y, 3);
-
-            }
-            if(bg4) {
-                update(x, y, 3);
-
-            }
-            if(bg5) {
-                update(x, y, 3);
-
-            }
-            if(bg6) {
-                update(x, y, 3);
-
-            }
             asm("wfi");
             if (mp->nexttick == MAXTICKS) {
             mp = midi_init(midifile);
@@ -360,6 +223,45 @@ void rocketMan(void)
         }
     }
 }
+
+//void moveBadGuys(int x, int y, int alternate, int MAX){
+//    int num = 4;
+//
+//    if(alternate == MAX / 8 || alternate == MAX / 8 + MAX/2)
+//    {
+//        for(int i= 0; i < num; i++)
+//        {
+//            x += 2;
+//            update(x, y, 3);
+//        }
+//    }
+//    else if(alternate == 2 * MAX / 8 || alternate == 2 * MAX / 8 + MAX/2)
+//    {
+//        for(int i= 0; i < num; i++)
+//        {
+//            y += 2;
+//            update(x, y, 3);
+//        }
+//    }
+//    else if(alternate == 3 * MAX / 8 || alternate == 3 * MAX / 8 + MAX/2)
+//                    {
+//                    x -= 2;
+//                    update(bgX5, bgY5, 3);
+//                    x -= 2;
+//                    update(bgX5, bgY5, 3);
+//                    }
+//                    else if(alternate == MAX / 2 || alternate == 0)
+//                    {
+//                    y -= 2;
+//                    update(bgX5, bgY5, 3);
+//                    y -= 2;
+//                    update(bgX5, bgY5, 3);
+//    //                bgY5 -= 2;
+//    //                update(bgX5, bgY5, 3);
+//    //                bgY5 -= 2;
+//    //                update(bgX5, bgY5, 3);
+//                    }
+//}
 
 void generateGame(void) {
     LCD_DrawPicture(0,0,&background);
