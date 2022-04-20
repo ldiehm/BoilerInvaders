@@ -2,6 +2,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include "lcd.h"
+#include "midi.h"
+#include "midiplay.h"
 
 static void nano_wait(unsigned int n) {
     asm(    "        mov r0,%0\n"
@@ -9,15 +11,6 @@ static void nano_wait(unsigned int n) {
             "        bgt repeat\n" : : "r"(n) : "r0", "cc");
 }
 
-void drive_column(int c)
-{
-    GPIOC->BSRR = 0xf00000 | ~(1 << (c + 4));
-}
-
-int read_rows()
-{
-    return (~GPIOC->IDR) & 0xf;
-}
 
 // Copy a subset of a large source picture into a smaller destination.
 // sx,sy are the offset into the source picture.
@@ -113,11 +106,166 @@ void update2(int x, int y)
     pic_overlay(tmp, 5,5, &player, 0xffff); // Overlay the ball
     LCD_DrawPicture(x-tmp->width/2,y-tmp->height/2, tmp); // Draw
 }
+//void rocketMan(void)
+//{
+//    // Draw the background.
+//        MIDI_Player *mp = midi_init(midifile);
+//        init_tim2(10417);
+//
+//    int x = 120;
+//    int y = 22;
+//
+//    int right, left, shootah, gbX, gbY;
+//    int gbCheck = 0;
+//    int bg1, bg2, bg3, bg4, bg5, bg6 = 1;
+//    int bgX1 = 90;
+//    int bgY1 = 280; //initializing bad guy 1
+//
+//    int bgX2 = 150;
+//    int bgY2 = 280; //initializing bad guy 1
+//
+//    int bgX3 = 210;
+//    int bgY3 = 280; //initializing bad guy 1
+//
+//    int bgX4 = 60;
+//    int bgY4 = 295; //initializing bad guy 1
+//
+//    int bgX5 = 120;
+//    int bgY5 = 295; //initializing bad guy 1
+//
+//    int bgX6 = 180;
+//    int bgY6 = 295; //initializing bad guy 1
+//
+//    for(;;) {
+//        for(int c=0; c<4; c++) {
+//
+//            nano_wait(7500000); // wait 1 ms
+//            right = GPIOC->IDR & 1<<6;
+//            left = GPIOC->IDR & 1<<7;
+//            shootah = GPIOC->IDR & 1<<8;
+//
+//            if((shootah && 1<<8) && (gbCheck != 1)) {
+//                gbCheck = 1;
+//                gbX = x;
+//                gbY = 30;
+//            }
+//
+//            if(gbCheck) {
+//                update(gbX-2, gbY + 10, 1);
+//
+//                update(gbX-2, gbY+2, 0);
+//
+//                gbY += 2;
+//            }
+//
+//            if (right && 1<<7)
+//            {
+//                //nano_wait(5000000);
+//                x++;
+//                update(x, y, 2);
+//            }
+//            else if(left && 1<<6)
+//            {
+//                right = GPIOC->IDR & 1<<6;
+//                left = GPIOC->IDR & 1<<7;
+//                shootah = GPIOC->IDR & 1<<8;
+//            }
+//            if((shootah && 1<<8) && (gbCheck != 1)) {
+//                gbCheck = 1;
+//                gbX = x;
+//                gbY = 30;
+//            }
+//
+//            if(gbCheck) {
+//                update(gbX-2, gbY + 10, 1);
+//
+//                update(gbX-2, gbY+2, 0);
+//
+//                gbY += 2;
+//            }
+//
+//            if (right && 1<<7)
+//            {
+//                x++;
+//                update(x, y, 2);
+//            }
+//            else if(left && 1<<6)
+//                {
+//                //nano_wait(5000000);
+//                x--;
+//                update(x, y, 2);
+//                }
+//
+//            if(gbY > 310) {
+//                gbCheck = 0;
+//            }
+//
+//            if(bg1) {
+//                update(x, y, 3);
+//            }
+//
+//            if(bg2) {
+//                update(x, y, 3);
+//            }
+//
+//            if(bg3) {
+//                update(x, y, 3);
+//            }
+//
+//            if(bg4) {
+//                update(x, y, 3);
+//            }
+//
+//            if(bg5) {
+//                update(x, y, 3);
+//            }
+//
+//            if(bg6) {
+//                update(x, y, 3);
+//            }
+//
+//            if(gbY > 310) {
+//                gbCheck = 0;
+//            }
+//            if(bg1) {
+//                update(x, y, 3);
+//
+//            }
+//            if(bg2) {
+//                update(x, y, 3);
+//
+//            }
+//            if(bg3) {
+//                update(x, y, 3);
+//
+//            }
+//            if(bg4) {
+//                update(x, y, 3);
+//
+//            }
+//            if(bg5) {
+//                update(x, y, 3);
+//
+//            }
+//            if(bg6) {
+//                update(x, y, 3);
+//            }
+//            if (mp->nexttick == MAXTICKS) {
+//                mp = midi_init(midifile);
+//            }
+//        }
+//    }
+//}
+
+
+//here
+
 
 void rocketMan(void)
 {
     // Draw the background.
-
+    MIDI_Player *mp = midi_init(midifile);
+    init_tim2(10417);
 
     int x = 120;
     int y = 22;
@@ -144,9 +292,9 @@ void rocketMan(void)
     int bgY6 = 295; //initializing bad guy 1
 
     for(;;) {
-        for(int c=0; c<4; c++) {
+        for(int z=0; z<4; z++) {
 
-            nano_wait(7500000); // wait 1 ms
+            nano_wait(750000); // wait 1 ms
             right = GPIOC->IDR & 1<<6;
             left = GPIOC->IDR & 1<<7;
             shootah = GPIOC->IDR & 1<<8;
@@ -205,9 +353,14 @@ void rocketMan(void)
                 update(x, y, 3);
 
             }
+            asm("wfi");
+            if (mp->nexttick == MAXTICKS) {
+            mp = midi_init(midifile);
+            }
+        }
     }
 }
-}
+
 void generateGame(void) {
     LCD_DrawPicture(0,0,&background);
 
@@ -219,7 +372,6 @@ void generateGame(void) {
     update(60, 295, 3); //initializing bad guys
     update(120, 295, 3);
     update(180, 295, 3);
-
 
 }
 
